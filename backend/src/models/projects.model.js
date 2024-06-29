@@ -2,7 +2,9 @@ const Projeto = require('./projects.mongo');
 
 
 async function getAllProjects() {
-    return await Projeto.find();
+    return await Projeto.find({}, {
+        'id': 0,  '__v': 0,
+    });
 }
 
 async function createProject(projectData) {
@@ -50,7 +52,9 @@ async function deleteProject(projectId) {
 async function getProjectsByUser(userId) {
     try {
         // Encontrar todos os projetos do usuário
-        const projetos = await Projeto.find({ userId });
+        const projetos = await Projeto.find({ userId }, {
+            'id': 0,  '__v': 0,
+        });
 
 
         if (projetos.length === 0) {

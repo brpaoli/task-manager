@@ -1,6 +1,6 @@
 const express = require('express');
-const { httpGetAllTasks, httpGetTasksByProject, httpSaveNewTask, httpDeleteTask, httpUpdateTask } = require('./tasks.controller');
-const authenticateToken = require('../../middleware/auth.middleware');
+const { httpGetAllTasks, httpGetTasksByProject, httpSaveNewTask, httpDeleteTask, httpUpdateTask } = require('../controllers/tasks.controller');
+const authenticateToken = require('../middleware/auth.middleware');
 const tasksRouter = express.Router();
 
 tasksRouter.get('/tasks', authenticateToken, httpGetAllTasks);

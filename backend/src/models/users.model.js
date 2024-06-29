@@ -6,7 +6,9 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret_key';
 
 async function getAllUsers() {
-    return await Usuario.find();
+    return await Usuario.find({}, {
+        'id': 0, '__v': 0, 'password': 0,
+    });
 }
 
 async function registerUser(userData) {

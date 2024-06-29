@@ -1,4 +1,4 @@
-const { getAllTasks, createTask, getTasksByProject, deleteTask, updateTask  } = require('../../models/tasks.model');
+const { getAllTasks, createTask, getTasksByProject, deleteTask, updateTask  } = require('../models/tasks.model');
 
 
 async function httpGetAllTasks(req, res) {

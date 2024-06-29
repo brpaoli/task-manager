@@ -3,7 +3,9 @@ const Projeto = require('./projects.mongo');
 const Usuario = require('./users.mongo');
 
 async function getAllTasks() {
-    return await Tarefa.find();
+    return await Tarefa.find({}, {
+            'id': 0, '__v': 0,
+        });
 }
 
 
@@ -57,7 +59,9 @@ async function getTasksByProject(projectId) {
         const projetoIds = projetos.map(projeto => projeto._id);
 
         // Encontrar todas as tarefas associadas aos projetos do usuário
-        const tarefas = await Tarefa.find({ projectId: { $in: projetoIds } });
+        const tarefas = await Tarefa.find({ projectId: { $in: projetoIds } },  {
+            'id': 0, '__v': 0,
+        });
 
         return tarefas;
     } catch (error) {

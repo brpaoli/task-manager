@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const projectsRouter = require('./routes/projects/projects.router');
-const tasksRouter = require('./routes/tasks/tasks.router');
-const usersRouter = require('./routes/users/users.router');
-const authRouter = require('./routes/auth/auth.routes');
+const projectsRouter = require('./routes/projects.router');
+const tasksRouter = require('./routes/tasks.router');
+const usersRouter = require('./routes/users.router');
+const authRouter = require('./routes/auth.routes');
 
 
 const app = express();

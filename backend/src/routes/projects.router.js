@@ -1,6 +1,6 @@
 const express = require('express');
-const { httpGetAllProjects, httpCreateProject, httpUpdateProject, httpDeleteProject, httpGetProjectsByUser } = require('./projects.controller');
-const authenticateToken = require('../../middleware/auth.middleware');
+const { httpGetAllProjects, httpCreateProject, httpUpdateProject, httpDeleteProject, httpGetProjectsByUser } = require('../controllers/projects.controller');
+const authenticateToken = require('../middleware/auth.middleware');
 const projectsRouter = express.Router();
 
 projectsRouter.get('/projects', authenticateToken, httpGetAllProjects);

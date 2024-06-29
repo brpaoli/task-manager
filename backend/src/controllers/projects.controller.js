@@ -1,4 +1,4 @@
-const { getAllProjects, createProject, updateProject, deleteProject, getProjectsByUser } = require('../../models/projects.model');
+const { getAllProjects, createProject, updateProject, deleteProject, getProjectsByUser } = require('../models/projects.model');
 
 
 async function httpGetAllProjects(req, res) {

@@ -1,4 +1,4 @@
-const { getAllUsers } = require('../../models/users.model');
+const { getAllUsers } = require('../models/users.model');
 
 async function httpGetAllUsers(req, res) {
     try {
