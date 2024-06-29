@@ -1,23 +1,24 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-// Define o schema de Projetos
-const projetoSchema = new Schema({
+// Define o schema de Usuarios
+const usuarioSchema = new Schema({
   id: {
     type: Schema.Types.ObjectId,
     auto: true
-  },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Usuario',
-    required: true
   },
   name: {
     type: String,
     required: true,
     trim: true
   },
-  description: {
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true
+  },
+  password: {
     type: String,
     required: true,
     trim: true
@@ -29,6 +30,6 @@ const projetoSchema = new Schema({
 });
 
 // Cria o modelo
-const Projeto = mongoose.model('Projeto', projetoSchema);
+const Usuario = mongoose.model('Usuario', usuarioSchema);
 
-module.exports = Projeto;
+module.exports = Usuario;

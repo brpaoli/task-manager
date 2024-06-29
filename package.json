@@ -1,0 +1,17 @@
+{
+  "name": "task-manager",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "backend": "npm run watch --prefix backend",
+    "frontend": "npm start --prefix frontend",
+    "watch": "npm run backend & npm run frontend",
+    "install-backend": "npm install --prefix backend",
+    "install-frontend": "npm install --prefix frontend",
+    "deploy": "npm run build --prefix frontend && npm start --prefix backend"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

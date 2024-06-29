@@ -1,6 +1,10 @@
 const express = require('express');
 const cors = require('cors');
-const projectsRouter = require('./routes/projects/projects.router')
+const projectsRouter = require('./routes/projects/projects.router');
+const tasksRouter = require('./routes/tasks/tasks.router');
+const usersRouter = require('./routes/users/users.router');
+const authRouter = require('./routes/auth/auth.routes');
+
 
 const app = express();
 
@@ -11,5 +15,9 @@ app.use(cors({
 app.use(express.json());
 
 app.use(projectsRouter);
+app.use(tasksRouter);
+app.use(usersRouter);
+app.use('/auth', authRouter);
+
 
 module.exports = app;
