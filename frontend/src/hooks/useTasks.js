@@ -3,13 +3,17 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 const useTasks = () => {
-    const [tasks, setTasks] = useState([]);
-    const [error, setError] = useState(null);
-    const token = useSelector((state) => state.auth.token);
+const [tasks, setTasks] = useState([]);
+const [error, setError] = useState(null);
+const token = useSelector((state) => state.auth.token);
+
+const axiosInstance = axios.create({
+baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
+});
 
     const fetchTasks = useCallback(async (projectId, token) => {
         try {
-            const response = await axios.get(`http://localhost:5000/usuario/${projectId}/tasks`, {
+            const response = await axiosInstance.get(`/usuario/${projectId}/tasks`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

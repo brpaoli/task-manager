@@ -43,7 +43,7 @@ async function authenticateUser(email, password) {
             throw new Error('Email ou senha inválidos');
         }
 
-        const token = jwt.sign({ id: usuario._id, email: usuario.email }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: usuario._id, email: usuario.email }, JWT_SECRET, { expiresIn: '2h' });
 
         return { token, user: { id: usuario._id, name: usuario.name, email: usuario.email } };
     } catch (error) {

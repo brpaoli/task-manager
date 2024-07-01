@@ -1,13 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectToken } from '../redux/authSlice';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const Project = () => {
     const token = useSelector(selectToken);
-    const params = useParams();
-    
-    console.log('Parametros da ur', params.projectId);
+
 
       // Verifica se há token JWT
     if (!token) {

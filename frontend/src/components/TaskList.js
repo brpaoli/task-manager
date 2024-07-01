@@ -4,6 +4,7 @@ import { useLocation, Link } from 'react-router-dom';
 import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
 import useTasks from '../hooks/useTasks';
+import { LogoutButton } from './LogoutBtn';
 
 
 const TaskList = () => {
@@ -18,7 +19,7 @@ const TaskList = () => {
         if (projectId && token) {
             fetchTasks(projectId, token);
         }
-    }, [projectId, token, fetchTasks]);
+    }, []);
 
     const handleDelete = async (taskId) => {
         try {
@@ -59,9 +60,14 @@ const TaskList = () => {
     return (
         <div className="task-list flex flex-col pt-8">
 
+            <div className="flex fle-col md:flex-row items-center justify-center">
                 <Link to={'/projects'} className="text-center bg-[#452b9c] hover:bg-[#5fdaa4]  text-white hover:text-[#452b9c] m-8 w-52 px-8 py-4 border border-0 rounded-md flex align-center justify-center self-center cursor-pointer">
                     Voltar para projetos
                 </Link>
+            
+                <LogoutButton />
+            </div>
+
 
 
             <div className="w-full grid grid-cols-1 md:grid-cols-3 md:flex-row flex-wrap justify-center items-stretch gap-8">
