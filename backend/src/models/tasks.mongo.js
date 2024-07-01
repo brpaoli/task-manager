@@ -37,7 +37,7 @@ const tarefaSchema = new Schema({
   },
   completedAt: {
     type: Date,
-    default: null
+    default: Date.now
   }
 });
 

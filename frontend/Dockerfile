@@ -10,14 +10,17 @@ COPY package*.json ./
 # Instalar as dependências
 RUN npm install
 
-# Copiar o restante do código
-COPY . .
+# # Compilar a aplicação
+# RUN npm run build
 
-# Compilar a aplicação
-RUN npm run build
+# Instalar nodemon globalmente
+RUN npm install -g nodemon
+
+# # Copiar o restante do código
+COPY . .
 
 # Expor a porta
 EXPOSE 3000
 
-# Comando para iniciar a aplicação
+# Comando para iniciar a aplicação no modo de desenvolvimento
 CMD ["npm", "start"]
