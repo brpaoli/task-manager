@@ -60,8 +60,8 @@ const TaskList = () => {
     return (
         <div className="task-list flex flex-col pt-8">
 
-            <div className="flex fle-col md:flex-row items-center justify-center">
-                <Link to={'/projects'} className="text-center bg-[#452b9c] hover:bg-[#5fdaa4]  text-white hover:text-[#452b9c] m-8 w-52 px-8 py-4 border border-0 rounded-md flex align-center justify-center self-center cursor-pointer">
+            <div className="flex flex-col md:flex-row items-center justify-center">
+                <Link to={'/projects'} className="text-center bg-[#452b9c] hover:bg-[#5fdaa4]  text-white hover:text-[#452b9c]  m-4md:m-8 w-42 md:w-52 px-8 py-4 border border-0 rounded-md flex align-center justify-center self-center cursor-pointer">
                     Voltar para projetos
                 </Link>
             

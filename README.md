@@ -25,6 +25,8 @@ docker-compose.yaml
 
 ### Endpoints
 
+Os endpoints foram criados seguinte as instruções da tarefa, ficaram assim.
+
 #### Autenticação
 
 <b>Registrar Usuário</b>
@@ -113,7 +115,7 @@ Corpo da Requisição:
 Cabeçalhos:
 Authorization: Bearer <token_jwt>
 
-<b>Obter Tarefas por Usuário</b>
+<b>Obter Tarefas por Projeto</b>
 URL: /users/:id/tasks
 Método: GET
 Descrição: Retorna todas as tarefas de um usuário específico. (Requer Autenticação)
@@ -192,7 +194,163 @@ Este arquivo configura o aplicativo Express, define os middlewares e as rotas pr
   └── app.js
 ```
 
-## Configuração
+## Frontend
+
+#### Visão Geral
+
+Esta é uma aplicação React que utiliza Tailwind CSS para estilização, autenticação JWT para verificação de login de usuário, react-router-dom v6 para navegação entre páginas, e Redux para gerenciamento de estado global e que consome as APIs geradas no backend utilizando o pacote Axios.
+
+#### Estrutura do Projeto
+
+```
+project-root/
+│
+├── src/
+│   ├── components/
+│   │   ├── ProjectCard.js
+│   │   ├── ProjectForm.js
+│   │   ├── ProjectList.js
+│   │   ├── TaskList.js
+│   │   └── ...
+│   │
+│   ├── hooks/
+│   │   ├── useProjects.js
+│   │   ├── useTasks.js
+│   │   └── ...
+│   │
+│   ├── redux/
+│   │   ├── authSlice.js
+│   │   ├── store.js
+│   │   └── ...
+│   │
+│   ├── utils/
+│   │   └── routes.js
+│   │
+│   |
+│   ├── index.js
+│   └── ...
+│
+├── public/
+│   ├── index.html
+│   └── ...
+│
+├── .env
+├── package.json
+└── ...
+```
+
+#### Configuração de Autenticação
+
+A autenticação é feita através de tokens JWT. Após o login, o token é salvo no estado global utilizando Redux.
+Primeiro armazenamos o valor recebido da consulta via API do token em localStorage e posteriormente passamos ele através da aplicação utlizando reduz.
+
+#### Navegação
+
+A aplicação usa react-router-dom v6 para navegação entre as páginas. A estrutura das rotas é definida em utils/routes.js que é importado para o index.js e utilizado na criação das rotas.
+Se o usuário estiver logado ele é redirecionado para a página de projetos, se não ele é enviado para a página de Login.
+
+#### Gerenciamento de Estado
+
+Utilizei Redux para gerenciar o estado global da aplicação. A configuração do store é feita em redux/store.js e authSlice.js , durante o desenvolvimento do projeto também fiz bastante uso do useState do próprio React para gerenciar o estado ou props de alguns componente.
+
+#### Estilização
+
+A estilização é feita utilizando Tailwind CSS. A configuração básica pode ser encontrada no arquivo tailwind.config.js. No demais a estilização é bem simples, foram acrescentadas algumas classes para estilizar um pouco a aparência do frontend.
+
+## Docker-compose
+
+Este arquivo docker-compose.yml define a configuração para uma aplicação MERN (MongoDB, Express, React, Node.js) composta por três serviços principais: MongoDB, backend (Node.js/Express) e frontend (React). Abaixo, detalhamos cada serviço e suas configurações.
+
+#### 1. mongo
+
+Imagem: Utiliza a imagem oficial mais recente do MongoDB.
+Nome do Contêiner: O contêiner é nomeado como mongo.
+Portas: Mapeia a porta 27017 do contêiner para a porta 27017 do host, permitindo acesso ao banco de dados MongoDB.
+Volumes: Utiliza um volume nomeado mongo-data para persistir os dados do MongoDB, mesmo que o contêiner seja removido ou parado.
+
+```
+mongo:
+  image: mongo:latest
+  container_name: mongo
+  ports:
+    - "27017:27017"
+  volumes:
+    - mongo-data:/data/db
+```
+
+#### 2. backend
+
+Build:
+Contexto: A configuração do build está na pasta ./backend.
+Dockerfile: Especifica o uso do Dockerfile na pasta ./backend.
+Nome do Contêiner: O contêiner é nomeado como backend.
+Portas: Mapeia a porta 5000 do contêiner para a porta 5000 do host, permitindo acesso ao servidor Node.js/Express.
+Dependências: O serviço backend depende do serviço mongo, garantindo que o MongoDB esteja em execução antes do backend.
+Ambiente: Define a variável de ambiente MONGO_URI para conectar ao MongoDB.
+Volumes: Monta a pasta ./backend do host para /app no contêiner, e a pasta node_modules dentro do contêiner para persistir as dependências instaladas.
+
+```
+backend:
+  build:
+    context: ./backend
+    dockerfile: Dockerfile
+  container_name: backend
+  ports:
+    - "5000:5000"
+  depends_on:
+    - mongo
+  environment:
+    MONGO_URI: mongodb://mongo:27017/mern-db
+  volumes:
+    - ./backend:/app
+    - /app/node_modules
+```
+
+#### 3. frontend
+
+Build:
+Contexto: A configuração do build está na pasta ./frontend.
+Dockerfile: Especifica o uso do Dockerfile na pasta ./frontend.
+Nome do Contêiner: O contêiner é nomeado como frontend.
+Portas: Mapeia a porta 3000 do contêiner para a porta 3000 do host, permitindo acesso à aplicação React.
+Dependências: O serviço frontend depende do serviço backend, garantindo que o backend esteja em execução antes do frontend.
+Volumes: Monta a pasta ./frontend do host para /app no contêiner, e a pasta node_modules dentro do contêiner para persistir as dependências instaladas.
+Ambiente: Define a variável de ambiente WATCHPACK_POLLING=true para ativar a detecção de mudanças no código.
+
+```
+frontend:
+  build:
+    context: ./frontend
+    dockerfile: Dockerfile
+  container_name: frontend
+  ports:
+    - "3000:3000"
+  depends_on:
+    - backend
+  volumes:
+    - ./frontend:/app
+    - /app/node_modules
+  environment:
+    - WATCHPACK_POLLING=true
+
+```
+
+#### 4
+
+```
+volumes:
+  mongo-data:
+
+```
+
+mongo-data: Um volume nomeado utilizado pelo serviço mongo para persistir os dados do MongoDB.
+
+### Resumo
+
+Resumo
+Este arquivo docker-compose.yml simplifica a orquestração dos serviços necessários para a aplicação MERN. Utiliza três contêineres: um para o banco de dados MongoDB, um para o backend Node.js/Express, e um para o frontend React. Cada serviço está configurado para suas necessidades específicas, como mapeamento de portas, volumes para persistência de dados e dependências, e variáveis de ambiente para configuração de runtime.
+
+## Configuração do Projeto
 
 1. **Criando um Clone o repositório:**
 
@@ -215,3 +373,7 @@ Este arquivo configura o aplicativo Express, define os middlewares e as rotas pr
    ```
    docker-compose up --build
    ```
+
+Ao rodar o comando serão montados os 3 containers, do frontend (PORTA:3000), backend(PORTA:5000) e do banco. Seria possível também fazer o build do frontend do react e carrega-lo estaticamente na mesma porta do backend a porta:3000, isso é especialmente útli quando estamos tentando evitar alguns problemas relacionados a CORS, no entando optei por não levar essa idéia adiante, porq ue o processo de build era um pouco lento durante o desenvolvimento.
+
+Qualquer feedback é bem-vindo. Uma coisa que aprendi ao longo dos anos desenvolvendo é que ninguém sabe tudo. Dito isso, agradeço a oportunidade e espero ter sorte no processo. =)
