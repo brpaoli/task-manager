@@ -14,11 +14,14 @@ const handleSubmit = async (e) => {
         name,
         description,
     };
-
+    const projectId = project._id;
     try {
-        if (project.projectId) {
-            await updateProject(project.projectId, newProjectData);
+
+        if (projectId) {
+
+            await updateProject(projectId, newProjectData);
         } else {
+            console.log('Chegou no else do projectForm');
             await createProject(userid, newProjectData); 
         }
 // Pass userId as first argument

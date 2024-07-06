@@ -6,7 +6,7 @@ import ProjectForm from './ProjectForm';
 
 const ProjectList = () => {
     const user = useSelector((state) => state.auth.user);
-    const { projects, fetchProjects, deleteProject } = useProjects();
+    const { projects, fetchProjects, deleteProject, updateProject } = useProjects();
     const parsedUser = user ? JSON.parse(user) : null;
     const [isProjectFormOpen, setProjectFormOpen] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
@@ -16,7 +16,7 @@ const ProjectList = () => {
         if (parsedUser?.id) {
             fetchProjects(parsedUser.id);
         }
-    }, []);
+    }, [projects]);
 
     const handleDelete = async (projectId) => {
         try {
@@ -36,8 +36,13 @@ const ProjectList = () => {
         fetchProjects(parsedUser?.id); // Update projects after closing form
     };
 
-    const handleEditProject = (project) => {
-        setSelectedProject(project);
+    const handleEditProject = async (project) => {
+        //
+        try {
+            setSelectedProject(project);
+        } catch (error) {
+            console.error('Failed to delete project:', error);
+        }
         setProjectFormOpen(true);
     };
 

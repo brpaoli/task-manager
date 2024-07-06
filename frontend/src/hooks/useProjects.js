@@ -62,7 +62,9 @@ const useProjects = () => {
             });
             setProjects((prevProjects) =>
                 prevProjects.map((project) =>
-                    project._id === projectId ? { ...project, ...response.data } : project
+                    project._id === projectId ? { 
+                        ...project, 
+                        ...response.data } : project
                 )
             );
         } catch (error) {
