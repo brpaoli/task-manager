@@ -1,12 +1,14 @@
-const express = require('express');
 const cors = require('cors');
-const projectsRouter = require('./routes/projects.router');
+const express = require('express');
+const helmet = require('helmet');
+const authRouter = require('./routes/auth.routes');
 const tasksRouter = require('./routes/tasks.router');
 const usersRouter = require('./routes/users.router');
-const authRouter = require('./routes/auth.routes');
+const projectsRouter = require('./routes/projects.router');
 
 
 const app = express();
+app.use(helmet());
 
 //Para aceitar requisições cross origins do frontend;
 app.use(cors({
